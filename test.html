@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content=" Chao Zhang, ANR 859658" />
+  <title>Second Assignment for Econometrics 1. Empirical exercises.</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</head>
+<body>
+<div id="header">
+<h1 class="title"><p><strong>Second Assignment for Econometrics 1. Empirical exercises.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></strong></p></h1>
+<h2 class="author"><br />
+<span><span style="font-variant: small-caps;">Chao Zhang, ANR 859658 <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></span> </span><br /></h2>
+</div>
+<p>For our code in Matlab, please see the corresponding m-files.</p>
+<h2 id="question-1" class="unnumbered">Question 1</h2>
+<p>Consider the model below:</p>
+<p><span class="math display">\[\label{A}
+log(wage) = \beta_0 + \beta_1 age + \beta_2 black + \beta_3 education\]</span></p>
+<p>Where <span class="math inline">\(log(wage)\)</span> is the natural logarithm of wage in US Dollars of 2200 young workers in the United States. <span class="math inline">\(age\)</span> is the age of the respondents in years.<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a> <span class="math inline">\(Black\)</span> is a dummy variable, indicating whether an individual has an Afro-American ethnicity. Finally, <span class="math inline">\(education\)</span> gives the years of education of the respondent.</p>
+<p>The OLS estimation yielded the results in table [1] below.<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a></p>
+<table>
+<caption>OLS estimations of model [A]<span data-label="1"></span></caption>
+<tbody>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"><span class="math inline">\(\hat{\beta}_{OLS}\)</span></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">constant</td>
+<td align="left">4.5725 (0.000)</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">age</td>
+<td align="left">0,0436 (0.000)</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">black</td>
+<td align="left">-0,2127 (0.000)</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">education</td>
+<td align="left">0,0388 (0.000)</td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>The OLS estimation indicates a positive effect of <span class="math inline">\(education\)</span> on <span class="math inline">\(log(wage)\)</span>. An extra year of education increases wage of the respondents by approximately 3.9 percent, ceteris paribus.</p>
+<p>All coefficients are highly significant, with a P-value of 0. Together, the regressors explain roughly twenty percent of the variation in <span class="math inline">\(log(wage)\)</span>.</p>
+<p><span class="math inline">\(Education\)</span> is potentially endogenous and causing the OLS results above to be incorrect. There are unobserved factors that may affect <span class="math inline">\(log(wage)\)</span> as well as <span class="math inline">\(education\)</span>. Ability of the respondent may for example influence both the years of education as well as the wage.</p>
+<h2 id="question-2" class="unnumbered">Question 2</h2>
+<p>We will re-estimate the model in equation [A], but with an IV estimator to control for potential endogeneity in <span class="math inline">\(education\)</span>. We estimate the model in two stages. First we regress <span class="math inline">\(education\)</span> on our instrument, <span class="math inline">\(father~education\)</span>, and next we regress <span class="math inline">\(log(wage)\)</span> on <span class="math inline">\(education\)</span> predicted in the first stage.</p>
+<p><span class="math display">\[\label{B}
+education = \alpha_0 + \alpha_1 age + \alpha_2 black + \alpha_3 father~education\]</span></p>
+<p><span class="math display">\[\label{C}
+log(wage) = \beta_0 + \beta_1 age + \beta_2 black + \beta_3 (\hat{\alpha}_0 + \hat{\alpha}_1 age + \hat{\alpha}_2 black + \hat{\alpha}_3 father~education)\]</span></p>
+<table>
+<caption>OLS and IV estimations with one instrument<span data-label="2"></span></caption>
+<tbody>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"><span class="math inline">\(\hat{\beta}_{OLS}\)</span></td>
+<td align="left"><span class="math inline">\(\hat{\beta}_{IV}\)</span></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">constant</td>
+<td align="left">4.5725 (0.000)</td>
+<td align="left">4.3332 (0.000)</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">age</td>
+<td align="left">0.0436 (0.000)</td>
+<td align="left">0.0431 (0.000)</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">black</td>
+<td align="left">-0.2127 (0.000)</td>
+<td align="left">-0.1876 (0.000)</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">education</td>
+<td align="left">0.0388 (0.000)</td>
+<td align="left">0.0571 (0.000)</td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>According to the IV estimation, if education increases with one year, then wage will increase with 5.7 percent, ceteris paribus. This relationship is highly significant.</p>
+<p>Compared to the OLS estimations in Question 1, the IV effects are similar but slightly smaller. The effect of <span class="math inline">\(education\)</span> on <span class="math inline">\(log(wage)\)</span> however has become larger.</p>
+<h2 id="question-3" class="unnumbered">Question 3</h2>
+<p>There are two conditions for a consistent IV estimator:</p>
+<ol>
+<li><p><span class="math inline">\(education\)</span> (our endogenous regressor) and <span class="math inline">\(father~education\)</span> (our instrument) must be correlated:<br />
+cov(<span class="math inline">\(education\)</span>, <span class="math inline">\(father~education\)</span>) <span class="math inline">\(\neq\)</span> 0</p></li>
+<li><p>The instrument, <span class="math inline">\(father~education\)</span> must be independent of <span class="math inline">\(u\)</span>:<br />
+cov(<span class="math inline">\(father~education\)</span>, <span class="math inline">\(u\)</span>) = 0</p></li>
+</ol>
+<p>The first condition will likely hold: children of parents who are highly education often are more highly educated themselves. Intuitively, people who are highly educated emphasize more on their children’s education. Say, they invest more in children’s education and high requirement on children’s academic performance. These contributes to longer education.Our data confirms this: we find a strong and significant positive correlation with both the father’s as well as the mother’s year education.</p>
+<p>To test the first assumption more formally, we conduct a test. We estimate an OLS on model [D]:</p>
+<p><span class="math display">\[\label{D}
+education = \beta_0 + \beta_1 father~education\]</span></p>
+<p>This results in the coefficients in Table [3]:</p>
+<table>
+<caption>OLS estimations of model [D]<span data-label="3"></span></caption>
+<tbody>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"><span class="math inline">\(\hat{\beta}_{OLS}\)</span></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">constant</td>
+<td align="left">10.3184 (0.000)</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">father education</td>
+<td align="left">0.3283 (0.000)</td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>We find a positive and highly significant effect of a father’s education on years of education of the respondent. The first condition for IV is therefore satisfied.</p>
+<p>The second condition cannot be tested formally. If we would consider more than one instrument, a test would be possible. However, using the test of merely one instrument will always give a coefficient of zero. A correlation between the father’s years of education and <span class="math inline">\(log(wage)\)</span> is also not sufficient, because it can indirectly (via the respondents’ education) affect <span class="math inline">\(log(wage)\)</span>, and thus give a correlation.</p>
+<p>We must use economic intuition and theory to argue that the second assumption is valid. It is likely that a respondent’s father’s years of education does not have a direct effect on the wage of the respondent. Based on common sense, <span class="math inline">\(log(wage)\)</span> would not affect <span class="math inline">\(father~education\)</span> because there is no direct reason we could think that it would.</p>
+<h2 id="question-4" class="unnumbered">Question 4</h2>
+<p>At a first glance when comparing the results of the IV and OLS estimations in Table [2], they are slightly different but still very similar. The standard errors of the OLS estimation are slightly smaller (again except for <span class="math inline">\(education\)</span>), so if education appears not to be endogenous, we would prefer using the OLS estimator as it is more efficient (see table [5]):</p>
+<table>
+<caption>The coefficients and standard errors of the OLS and IV estimations with one instrument<span data-label="5"></span></caption>
+<tbody>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"><span class="math inline">\(\hat{\beta}_{OLS}\)</span></td>
+<td align="left"><span class="math inline">\(SE_{OLS}\)</span></td>
+<td align="left"><span class="math inline">\(\hat{\beta}_{IV}\)</span></td>
+<td align="left"><span class="math inline">\(SE_{IV}\)</span></td>
+</tr>
+<tr class="even">
+<td align="left">constant</td>
+<td align="left">4.5725 (0.000)</td>
+<td align="left">0.0877</td>
+<td align="left">4.3332 (0.000)</td>
+<td align="left">0.1243</td>
+</tr>
+<tr class="odd">
+<td align="left">age</td>
+<td align="left">0.0436 (0.000)</td>
+<td align="left">0.0027</td>
+<td align="left">0.0431 (0.000)</td>
+<td align="left">0.0027</td>
+</tr>
+<tr class="even">
+<td align="left">black</td>
+<td align="left">-0.2127 (0.000)</td>
+<td align="left">0.0233</td>
+<td align="left">-0.1876 (0.000)</td>
+<td align="left">0.0251</td>
+</tr>
+<tr class="odd">
+<td align="left">education</td>
+<td align="left">0.0388 (0.000)</td>
+<td align="left">0.033</td>
+<td align="left">0.0571 (0.000)</td>
+<td align="left">0.0075</td>
+</tr>
+</tbody>
+</table>
+<p>We shall test the following null hypothesis:</p>
+<ul>
+<li></li>
+<li></li>
+</ul>
+<p>The null hypothesis can be tested via two ways:</p>
+<h3 id="test-one" class="unnumbered">Test one</h3>
+<p>According to Davidson and Mackinnon (1999), we can use auxiliary regression [H] to test the null hypothesis.</p>
+<p><span class="math display">\[\label{H}
+y = X\beta + P_wY\delta + u\]</span></p>
+<p>where <span class="math inline">\(y\)</span> is <span class="math inline">\(log(wage)\)</span>, <span class="math inline">\(X\)</span> are the regressors in the model (in this case <span class="math inline">\(age\)</span>, <span class="math inline">\(black\)</span> and <span class="math inline">\(education\)</span>. <span class="math inline">\(P_w\)</span> is the projection matrix of <span class="math inline">\(W\)</span>, a matrix with the instruments. <span class="math inline">\(father~education\)</span> is part of <span class="math inline">\(W\)</span>. <span class="math inline">\(Y\)</span> are those regressors in <span class="math inline">\(X\)</span> that are potentially endogenous (in this case <span class="math inline">\(education\)</span>).</p>
+<p>We conducted an OLS regression for equation [H]. If <span class="math inline">\(\delta = 0 \)</span> then the null hypothesis is not rejected and we should choose OLS over IV. However, we find an significant coefficient of 0.0059. We must reject the null hypothesis and choose the IV estimator.</p>
+<h3 id="test-two" class="unnumbered">Test two</h3>
+<p>We use a Durbin-Wu-Hausman test to see if the OLS and IV estimates are statistically different.</p>
+<p><span class="math display">\[\label{G}
+Durbin-Wu-Hausman~test~statistic = (\hat{\beta}_{IV} - \hat{\beta}_{OLS}) (\hat{var}(\hat{\beta}_{IV}) - \hat{var}(\hat{\beta}_{OLS}))^{-1} (\hat{\beta}_{IV} - \hat{\beta}_{OLS})\]</span></p>
+<p>Our test statistic is significant with a P-value of 0.0094. The null hypothesis must be rejected: the OLS estimates are statistically different from the IV-estimates. IV-estimation is therefore preferred.</p>
+<h2 id="question-5" class="unnumbered">Question 5</h2>
+<p>We repeat Question 2 but use an additional instrument: <span class="math inline">\(mother~education\)</span>. This results in the model below:</p>
+<p><span class="math display">\[\label{E}
+education = \alpha_0 + \alpha_1 age + \alpha_2 black + \alpha_3 father~education + \alpha_4 mother~education\]</span></p>
+<p><span class="math display">\[\label{F}
+log(wage) = \beta_0 + \beta_1 age + \beta_2 black + \beta_3 (\hat{\alpha}_0 + \hat{\alpha}_1 age + \hat{\alpha}_2 black + \hat{\alpha}_3 father~education + \hat{\alpha}_4 mother~education)\]</span></p>
+<p>This gives the results in table [4].</p>
+<table>
+<caption>OLS and IV estimations with one and two instruments<span data-label="4"></span></caption>
+<tbody>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"><span class="math inline">\(\hat{\beta}_{OLS}\)</span></td>
+<td align="left"><span class="math inline">\(\hat{\beta}_{IV_{one~instrument}}\)</span></td>
+<td align="left"><span class="math inline">\(\hat{\beta}_{IV_{two~instruments}}\)</span></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">constant</td>
+<td align="left">4.5725 (0.000)</td>
+<td align="left">4.3332 (0.000)</td>
+<td align="left">4.2935 (0.000)</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">age</td>
+<td align="left">0.0436 (0.000)</td>
+<td align="left">0.0431 (0.000)</td>
+<td align="left">0.0430 (0.000)</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">black</td>
+<td align="left">-0.2127 (0.000)</td>
+<td align="left">-0.1876 (0.025)</td>
+<td align="left">-0.1835 (0.1716)</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">educ</td>
+<td align="left">0.0388 (0.000)</td>
+<td align="left">0.0571 (0.195)</td>
+<td align="left">0.0602 (0.000)</td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>The estimates of the two IV estimations are very similar. Using two instruments is a bit more efficient as the standard errors are slightly smaller.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Email address: c.zhang@syr.edu<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>This is only the empirical part of this problem set. The theoretical part is a separate document.<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>We also explored the possibility of introducing <span class="math inline">\(age^2\)</span> in our model. However a scatter plot indicated that the relation between <span class="math inline">\(age\)</span> and <span class="math inline">\(log(wage)\)</span> can be properly approached with a linear function. Putting <span class="math inline">\(age^2\)</span> in the model did not improve the model and its coefficient was not significant. We therefore decided to exclude <span class="math inline">\(age^2\)</span> from our model.<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p>The P-values of the estimated coefficients are given between brackets.<a href="#fnref4">↩</a></p></li>
+</ol>
+</div>
+</body>
+</html>
